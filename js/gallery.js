@@ -64,6 +64,12 @@ const images = [
     },
 ];
 
+const handleEsc = (event, instance) => {
+    if (event.key === 'Escape') {
+        instance.close();
+    }
+};
+
 const gallery = document.querySelector('.gallery');
 
 const galleryHTML = images.map(image =>
@@ -93,20 +99,12 @@ gallery.addEventListener('click', (event) => {
         <img src="${originalImgURL}" width="800" height="600">
     `, {
         onShow: (instance) => {
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') {
-                    instance.close();
-                }
-            });
+            document.addEventListener('keydown', (event) => handleEsc(event, instance));
         },
-        onClose: () => {
-            document.removeEventListener('keydown', (event) => {
-                if (event.key === 'Escape') {
-                    instance.close();
-                }
-            });
+        onClose: (instance) => {
+            document.removeEventListener('keydown', (event) => handleEsc(event, instance));
         }
     });
 
     instance.show();
-})
+});
